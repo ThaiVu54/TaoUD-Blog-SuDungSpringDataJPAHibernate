@@ -1,17 +1,49 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Delete blog</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Delete blog</h1>-->
+<!--<h3>Ban chac chua</h3>-->
+<!--<p>-->
+<!--    <a th:href="@{/blog}">Back to list</a>-->
+<!--</p>-->
+<!--<form th:action="@{/delete-blog}" method="post" th:object="${blog}">-->
+<!--    <input type="hidden" th:field="*{id}">-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <td>Author:</td>-->
+<!--            <td th:text="${blog.author}"></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Content:</td>-->
+<!--            <td th:text="${blog.content}"></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td></td>-->
+<!--            <td><input type="submit" value="Delete blog"></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Delete blog</title>
+    <title>Delete Blog</title>
 </head>
 <body>
-<h1>Delete blog</h1>
-<h3>Ban chac chua</h3>
 <p>
-    <a th:href="@{/blog}">Back to list</a>
+    <a href="/blogs">Blog List</a>
 </p>
-<form th:action="@{/delete-blog}" method="post" th:object="${blog}">
-    <input type="hidden" th:field="*{id}">
+<h1>Delete Blog</h1>
+<h3>Are you sure?</h3>
+<form th:action="@{/delete-blog}" th:object="${blog}" method="post">
+    <input th:type="hidden" th:field="*{id}">
     <table>
         <tr>
             <td>Author:</td>
@@ -22,8 +54,12 @@
             <td th:text="${blog.content}"></td>
         </tr>
         <tr>
+            <td>Catagory:</td>
+            <td th:text="${blog.category.name}"></td>
+        </tr>
+        <tr>
             <td></td>
-            <td><input type="submit" value="Delete blog"></td>
+            <td><input type="submit" value="Delete Blog"></td>
         </tr>
     </table>
 </form>

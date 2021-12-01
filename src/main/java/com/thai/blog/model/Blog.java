@@ -10,6 +10,30 @@ public class Blog {
     private Long id;
     private String author;
     private String content;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Blog(Long id, String author, String content, Category category) {
+        this.id = id;
+        this.author = author;
+        this.content = content;
+        this.category = category;
+    }
+
+    public Blog(String author, String content, Category category) {
+        this.author = author;
+        this.content = content;
+        this.category = category;
+    }
 
     public Long getId() {
         return id;

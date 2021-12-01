@@ -1,24 +1,38 @@
 package com.thai.blog.controller;
 
 import com.thai.blog.model.Blog;
-import com.thai.blog.service.BlogService;
+import com.thai.blog.model.Category;
 import com.thai.blog.service.IBlogService;
+import com.thai.blog.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping(value = {"blog", "/", ""})
+@RequestMapping(value = {"blogs", "/", ""})
 public class BlogController {
     @Autowired
-    private IBlogService blogService = new BlogService();
+    private IBlogService blogService;
+    @Autowired
+    private ICategoryService categoryService;
+
+    @ModelAttribute("categories")
+    public Iterable<Category> categories(Pageable pageable){
+        return categoryService.findAll(pageable);
+    }
 
     @GetMapping("")
-    public ModelAndView blogForm() {
-        List<Blog> blogs = blogService.findAll();
+    public ModelAndView listBlog(@RequestParam("search") Optional<String> search, Pageable pageable) {
+        Iterable<Blog> blogs = blogService.findAll(pageable);
+        if (search.isPresent()) {
+            blogs = blogService.findAllAuthorStartsWith(search.get(), pageable);
+        } else {
+            blogs = blogService.findAll(pageable);
+        }
         ModelAndView modelAndView = new ModelAndView("/index");
         modelAndView.addObject("blogs", blogs);
         return modelAndView;
@@ -42,12 +56,12 @@ public class BlogController {
 
     @GetMapping("/edit-blog/{id}")
     public ModelAndView editForm(@PathVariable Long id) {
-        Blog blog = blogService.findById(id);
-        if (blog != null) {
+        Optional<Blog> blog = blogService.findById(id);
+        if (blog.isPresent()){
             ModelAndView modelAndView = new ModelAndView("/edit");
-            modelAndView.addObject("blog", blog);
+            modelAndView.addObject("blog",blog.get());
             return modelAndView;
-        } else {
+        }else {
             ModelAndView modelAndView = new ModelAndView("/error404");
             return modelAndView;
         }
@@ -64,19 +78,21 @@ public class BlogController {
 
     @GetMapping("/delete-blog/{id}")
     public ModelAndView deleteForm(@PathVariable Long id) {
-        Blog blog = blogService.findById(id);
-        if (blog != null) {
+//        Blog blog = blogService.findById(id);
+        Optional<Blog> blog = blogService.findById(id);
+        if (blog.isPresent()) {
             ModelAndView modelAndView = new ModelAndView("/delete");
-            modelAndView.addObject("blog",blog);
+            modelAndView.addObject("blog", blog.get());
             return modelAndView;
-        }else {
+        } else {
             ModelAndView modelAndView = new ModelAndView("error404");
             return modelAndView;
         }
     }
+
     @PostMapping("/delete-blog")
-    public String deleteBlog(@ModelAttribute ("blog") Blog blog){
+    public String deleteBlog(@ModelAttribute("blog") Blog blog) {
         blogService.remove(blog.getId());
-        return "redirect:/blog";
+        return "redirect:/blogs";
     }
 }
