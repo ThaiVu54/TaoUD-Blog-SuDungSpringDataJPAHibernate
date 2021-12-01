@@ -1,36 +1,80 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Update blog</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Update blog</h1>-->
+<!--<p>-->
+<!--    <a th:href="@{blog}">Back to list</a>-->
+<!--</p>-->
+<!--<th:block th:if="${message}">-->
+<!--    <p th:text="${message}"></p>-->
+<!--</th:block>-->
+<!--<th:block>-->
+<!--    <form th:action="@{/edit-blog}" th:object="${blog}" method="post">-->
+<!--        <input th:type="hidden" th:field="*{id}"/>-->
+<!--        <table>-->
+<!--            <tr>-->
+<!--                <td>Author:</td>-->
+<!--                <td><input type="text" th:field="*{author}"></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>Content:</td>-->
+<!--                <td><input type="text" th:field="*{content}"></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td></td>-->
+<!--                <td><input type="submit" value="UPDATE"></td>-->
+<!--            </tr>-->
+<!--        </table>-->
+<!--    </form>-->
+<!--</th:block>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>Update blog</title>
+    <title>Edit Blog</title>
 </head>
 <body>
-<h1>Update blog</h1>
 <p>
-    <a th:href="@{blog}">Back to list</a>
+    <a href="/blogs">Blog List</a>
 </p>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
-<th:block>
-    <form th:action="@{/edit-blog}" th:object="${blog}" method="post">
-        <input th:type="hidden" th:field="*{id}"/>
-        <table>
-            <tr>
-                <td>Author:</td>
-                <td><input type="text" th:field="*{author}"></td>
-            </tr>
-            <tr>
-                <td>Content:</td>
-                <td><input type="text" th:field="*{content}"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="UPDATE"></td>
-            </tr>
-        </table>
-    </form>
-</th:block>
+<form th:action="@{/edit-blog}" th:object="${blog}" method="post">
+    <input th:type="hidden" th:field="*{id}">
+    <table>
+        <tr>
+            <td>Author:</td>
+            <td><input type="text" th:field="*{author}"></td>
+        </tr>
+        <tr>
+            <td>Content:</td>
+            <td><input type="text" th:field="*{content}"></td>
+        </tr>
+        <tr>
+            <td>Category:</td>
+            <td>
+                <select name="catagory">
+                    <option th:each="p : ${categories}"
+                            th:value="${p.id}"
+                            th:text="${p.name}"
+                            th:selected="(${p.id} == *{category.id})"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Update blog"></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>

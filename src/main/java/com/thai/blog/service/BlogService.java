@@ -1,23 +1,27 @@
 package com.thai.blog.service;
 
 import com.thai.blog.model.Blog;
-import com.thai.blog.repository.BlogRepo;
+import com.thai.blog.model.Category;
 import com.thai.blog.repository.IBlogRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
+@Service
 public class BlogService implements IBlogService{
-    @Autowired
-     IBlogRepo blogRepo = new BlogRepo();
 
+    @Autowired
+    IBlogRepo blogRepo;
     @Override
-    public List<Blog> findAll() {
-        return blogRepo.findAll();
+    public Iterable<Blog> findAll(Pageable pageable) {
+        return blogRepo.findAll(pageable);
     }
 
     @Override
-    public Blog findById(Long id) {
+    public Optional<Blog> findById(Long id) {
         return blogRepo.findById(id);
     }
 
@@ -28,6 +32,16 @@ public class BlogService implements IBlogService{
 
     @Override
     public void remove(Long id) {
-    blogRepo.remove(id);
+    blogRepo.deleteById(id);
+    }
+
+    @Override
+    public Page<Blog> findAllAuthorStartsWith(String author, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<Blog> findAllByCategory(Category category, Pageable pageable) {
+        return null;
     }
 }
