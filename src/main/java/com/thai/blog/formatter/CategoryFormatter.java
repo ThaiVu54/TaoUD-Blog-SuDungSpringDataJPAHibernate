@@ -21,6 +21,7 @@ public class CategoryFormatter implements Formatter<Category> {
     }
 
     @Override
+    //chuyen doi du lieu dau vao sang du lieu yeu cay
     public Category parse(String text, Locale locale) throws ParseException {
         Optional<Category> category = categoryService.findById(Long.parseLong(text));
         return category.orElse(null);
