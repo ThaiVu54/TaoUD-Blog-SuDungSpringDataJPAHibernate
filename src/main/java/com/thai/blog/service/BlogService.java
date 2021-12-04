@@ -37,11 +37,11 @@ public class BlogService implements IBlogService{
 
     @Override
     public Page<Blog> findAllAuthorStartsWith(String author, Pageable pageable) {
-        return null;
+        return findAllAuthorStartsWith(author,pageable);
     }
 
     @Override
     public Page<Blog> findAllByCategory(Category category, Pageable pageable) {
-        return null;
+        return findAllByCategory(category,pageable);
     }
 }
